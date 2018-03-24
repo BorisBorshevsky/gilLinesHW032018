@@ -135,19 +135,19 @@ public class Line {
             new Point(vertical(this, other).getX(), vertical(this, other).getY());
         } else if (this.p1.getX() != this.p2.getX() && other.p1.getX() != other.p2.getX()) {
             Point p = findIntersection(other);
-            if (isDotOnLine(p, this) != null && isDotOnLine(p, other) != null) {
+            if (this.isDotOnLine(p) != null && other.isDotOnLine(p) != null) {
                 return p;
             }
         }
         return null;
     }
 
-    public Point isDotOnLine(Point p, Line line) {
+    public Point isDotOnLine(Point p) {
         // if the 'x' value is in range of the first segment, proceed.
-        if (minVal(line.p1.getX(), line.p2.getX()) <= p.getX() && p.getX()
-                <= maxVal(line.p1.getX(), line.p2.getX())) {
-            if (minVal(line.p1.getY(), line.p2.getY()) <= p.getY() && p.getY()
-                    <= maxVal(line.p1.getY(), line.p2.getY())) {
+        if (minVal(this.p1.getX(), this.p2.getX()) <= p.getX() && p.getX()
+                <= maxVal(this.p1.getX(), this.p2.getX())) {
+            if (minVal(this.p1.getY(), this.p2.getY()) <= p.getY() && p.getY()
+                    <= maxVal(this.p1.getY(), this.p2.getY())) {
                 return p;
             }
         }
@@ -163,7 +163,7 @@ public class Line {
             // point of intersection - y value.
             double intersectionY = (slope2 * this.p1.getX()) + b2;
             Point inter = new Point(l1.p1.getX(), intersectionY);
-            if (isDotOnLine(inter, l2) != null) {
+            if (l2.isDotOnLine(inter) != null) {
                 return inter;
             }
             // if only the second line is vertical.
@@ -173,7 +173,7 @@ public class Line {
             double b1 = l1.p1.getY() - (slope1 * l1.p1.getX());
             double intersectionY = (slope1 * l2.p1.getX()) + b1;
             Point inter = new Point(l2.p1.getX(), intersectionY);
-            if (isDotOnLine(inter, l1) != null) {
+            if (l1.isDotOnLine(inter) != null) {
                 return inter;
             }
         }
@@ -187,7 +187,7 @@ public class Line {
             return null;
         }
         // y = ax + b --> b = y - ax.
-        double b1 = this.p1.getY() - (slope1 * this.p1.getY());
+        double b1 = this.p1.getY() - (slope1 * this.p1.getX());
         double b2 = other.p1.getY() - (slope2 * other.p1.getX());
          /*
         slope1 * x0 + b1 = slope2 * x0 + b2
